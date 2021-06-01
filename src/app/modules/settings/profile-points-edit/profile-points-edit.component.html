@@ -1,0 +1,83 @@
+<div class="modal-header">
+  <h4 class="modal-title">Chi tiết bảng điểm </h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.dismiss('Cross click')">
+    <span aria-hiDDen="true">&times;</span>
+  </button>
+</div>
+<div class="modal-boy">
+  <div class="container">
+    <form [formGroup]="pointForm">
+
+
+      <div class="form-group">
+        <label for="maLop">Mã thẻ : </label>
+        <span id="maLop">{{pointModel.maThe}}</span>
+      </div>
+      <div class="form-group">
+        <label for="userName">Họ và tên : </label>
+        <span id="userName">{{pointModel.userName}}</span>
+      </div>
+      <div class="form-group">
+        <label for="ngaySinh">Ngày sinh :</label>
+        <span id="ngaySinh">{{pointModel.ngaySinh | date: 'yyyy-MM-dd'}}</span>
+      </div>
+      <div class="form-group">
+        <label for="diemMieng">Điểm miệng :</label>
+        <input id="diemMieng" formControlName="diemMieng" name="diemMieng"   placeholder="Nhập điểm miệng..." [ngClass]="{'is-invalid': f.diemMieng.errors}">
+        <div *ngIf="f.diemMieng.errors && (f.diemMieng.dirty || f.diemMieng.touched)" class="text-danger">
+          <div *ngIf="f.diemMieng.errors.required">Điểm không được để trống!</div>
+          <div *ngIf="f.diemMieng.errors.pattern">Điểm nhập vào phải thuộc trong thang điểm 10!</div>
+        </div>
+
+      </div>
+      <div class="form-group">
+        <label for="diem15p">Điểm 15 phút :</label>
+        <input id="diem15p" formControlName="diem15p" name="diem15p"   placeholder="Nhập điểm 15p..." [ngClass]="{'is-invalid': f.diem15p.errors}">
+        <div *ngIf="f.diem15p.errors && (f.diem15p.dirty || f.diem15p.touched)" class="text-danger">
+          <div *ngIf="f.diem15p.errors.required">Điểm không được để trống!</div>
+          <div *ngIf="f.diem15p.errors.pattern">Điểm nhập vào phải thuộc trong thang điểm 10!</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="diem90p">Điểm 90 phút :</label>
+        <input id="diem90p" formControlName="diem90p" name="diem90p"   placeholder="Nhập điểm 90p..." [ngClass]="{'is-invalid': f.diem90p.errors}">
+        <div *ngIf="f.diem90p.errors && (f.diem90p.dirty || f.diem90p.touched)" class="text-danger">
+          <div *ngIf="f.diem90p.errors.required">Điểm không được để trống!</div>
+          <div *ngIf="f.diem90p.errors.pattern">Điểm nhập vào phải thuộc trong thang điểm 10!</div>
+        </div>
+      </div>
+<!--      <div class="form-group">-->
+<!--        <label for="diem90p">Kíp dạy :</label>-->
+<!--        <select formControlName="kipDay" id="kipDay">-->
+<!--          <option value="" selected disabled>&#45;&#45;Chọn kíp dạy&#45;&#45;</option>-->
+<!--          <option [value]="1">{{kip1}}</option>-->
+<!--          <option [value]="2">{{kip2}}</option>-->
+<!--          <option [value]="3">{{kip3}}</option>-->
+<!--          <option [value]="4">{{kip4}}</option>-->
+<!--          <option [value]="5">{{kip5}}</option>-->
+<!--        </select>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="idLop">Tên lớp :</label>-->
+<!--         <select  formControlName="idLop" name="idLop" id="idLop">-->
+<!--           <option value="" selected disabled>&#45;&#45;Chọn lớp&#45;&#45;</option>-->
+<!--           <option *ngFor="let lo of lopHoc" [value]="lo.id">{{lo.tenlop}}</option>-->
+<!--         </select>-->
+<!--      </div>-->
+      <div class="form-group">
+        <label for="diemTB">Điểm trung bình : </label>
+        <span id="diemTB">{{parseDiemTB()}}</span>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="submit" (click)="onEdit()" [disabled]="pointForm.invalid || !pointForm.dirty">
+    Chỉnh sửa
+  </button>
+  <button class="btn btn-danger"
+          (click)="cancel()">
+    Close
+  </button>
+</div>

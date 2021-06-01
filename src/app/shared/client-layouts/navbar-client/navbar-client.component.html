@@ -1,0 +1,114 @@
+<!-- Slider -->
+<div class="tp-banner-container">
+  <div class="tp-banner">
+    <ul style="list-style: none; display: contents;">
+      <!-- SLIDE  -->
+      <li data-transition="fade" data-slotamount="7" data-masterspeed="1500">
+        <!-- MAIN IMAGE -->
+        <img style="max-width: 100%;" src="../../../../assets/img/IMG_5213.JPG" alt="IMG_5213"
+             data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+        <!--        <img style="width: -webkit-fill-available!important;" src="../../../../assets/img/maths-ftr.jpg" alt="slidebg1"-->
+        <!--             data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">-->
+        <!-- LAYERS -->
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- //Slider -->
+
+<div class="headernav">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-1 col-xs-3 col-sm-2 col-md-2 logo "><a routerLink=""><img src="../../../../assets/img/logo.jpg"
+                                                                                   alt=""/></a></div>
+      <div class="col-lg-3 col-xs-9 col-sm-5 col-md-3 selecttopic">
+        <div class="dropdown">
+          <a data-toggle="dropdown" routerLink="" class="font-weight-bold text-decoration-none">Quản lý trung tâm giáo
+            dục</a> <b class="caret"></b>
+          <!--          <ul class="dropdown-menu" role="menu">-->
+          <!--            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Borderlands 1</a></li>-->
+          <!--            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Borderlands 2</a></li>-->
+          <!--            <li role="presentation"><a role="menuitem" tabindex="-3" href="#">Borderlands 3</a></li>-->
+
+          <!--          </ul>-->
+        </div>
+      </div>
+      <div class="col-lg-3 col-xs-9 col-sm-5 col-md-3 selecttopic">
+        <div class="dropdown">
+          <a data-toggle="dropdown" routerLink="/document/all" class="font-weight-bold text-decoration-none">Tài liệu
+            học tập</a> <b class="caret"></b>
+          <!--          <ul class="dropdown-menu" role="menu">-->
+          <!--            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Borderlands 1</a></li>-->
+          <!--            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Borderlands 2</a></li>-->
+          <!--            <li role="presentation"><a role="menuitem" tabindex="-3" href="#">Borderlands 3</a></li>-->
+
+          <!--          </ul>-->
+        </div>
+      </div>
+      <div class="col-lg-5 col-xs-12 col-sm-5 col-md-5 avt">
+        <div class="myB stnt pull-left">
+          <button class="btn btn-primary" (click)="clickPost()">Đăng bài</button>
+        </div>
+        <div class="stnt pull-left">
+          <button class="btn btn-info" (click)="createContact()">Tạo liên hệ</button>
+        </div>
+        <div class="env pull-left"><a (click)="showNoti()"><img class="notifications-inbox"
+                                                                src="../../../../assets/img/no-notification.png"
+                                                                alt="Notification" id="notification-icon"
+                                                                (click)="isReadAll()"/><span
+          class="noti-count" *ngIf="isAuthenticate">{{notiCount}}</span></a></div>
+        <ng-container *ngIf="1 == 1">
+          <div class="notifications-show toggler" *ngIf="isAuthenticate" id="shownotyfication">
+            <ul class="notification-item">
+              <li *ngFor="let noti of notification"><a (click)="checkMoveDetail()"
+                                                       [routerLink]="['/all-topic/topic/',noti.idBaiViet]">
+                <div id="itemnoti" [ngStyle]="{
+              'background-color': noti.isRead == 0 ? 'darkturquoise': 'white'
+              }">
+                  {{noti.userName}} đã {{noti.message}} về bài viết {{noti.titleBV}} của bạn!
+                </div>
+              </a></li>
+              <br>
+            </ul>
+          </div>
+        </ng-container>
+        <!--        <div class="dropdown env pull-left">-->
+        <!--          <img class="btn dropdown-toggle notifications-inbox"  src="../../../../assets/img/no-notification.png"   alt="Notification" id = "notification-icon" data-toggle="dropdown"   (click)="notificationClick()" >-->
+        <!--          <ul class="dropdown-menu">-->
+        <!--            <li *ngFor="let noti of notification"><a [routerLink]="['/all-topic/topic/',noti.idBaiViet]">{{noti.userName}} đã {{noti.message}} về bài viết {{noti.titleBV}} của bạn!</a></li>-->
+        <!--          </ul>-->
+        <!--        </div>-->
+        <div class="stnt pull-left" *ngIf="!isAuthenticate">
+          <button class="btn btn-primary" (click)="openLogin()">Đăng nhập</button>
+        </div>
+        <!--        <div class="stnt pull-left" *ngIf="!isAuthenticate && !isLoginPage">-->
+        <!--          <button class="btn btn-primary">Đăng kí</button>-->
+        <!--        </div>-->
+        <div class="avatar pull-left dropdown" *ngIf="isAuthenticate">
+          <a data-toggle="dropdown" href="#" *ngIf="userProfile.imagePath"><img style="width: 55px;height: 40px;"
+                                                                                [src]="userProfile.imagePath"
+                                                                                alt="{{userProfile.imagePath}}"/></a> <b
+          class="caret"></b>
+          <a data-toggle="dropdown" href="#" *ngIf="userProfile.imagePath === null || !userProfile.imagePath"><img
+            style="width: 44px;height: 42px;" src="../../../../assets/img/default.png"
+            alt="default"/></a> <b class="caret"></b>
+          <div class="status green">&nbsp;</div>
+          <ul class="dropdown-menu" role="menu">
+            <li role="presentation"><a role="menuitem" routerLink="/settings/profile">Trang cá nhân</a></li>
+            <li role="presentation"><a role="menuitem" routerLink="/admin/qlttgd" *appHasAnyAuthority="['ROLE_ADMIN']">Trang
+              điều khiển</a>
+            </li>
+            <li role="presentation"><a role="menuitem" routerLink="/settings/register-lop"
+                                       *appHasAnyAuthority="['ROLE_STUDENT']">Đăng ký lớp học</a></li>
+            <!--            <li role="presentation"><a role="menuitem" routerLink="">Inbox</a></li>-->
+            <li role="presentation"><a role="menuitem" class="link-hover" (click)="changePassword()">Thay đổi mật
+              khẩu</a></li>
+            <li role="presentation"><a role="menuitem" routerLink="" (click)="logOut()">Log Out</a></li>
+          </ul>
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

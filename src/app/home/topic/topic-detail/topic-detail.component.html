@@ -1,0 +1,140 @@
+<div class="post" style="margin-top: 10px">
+  <div class="wrap-ut pull-left">
+    <div class="userinfo pull-left">
+      <div class="avatar">
+        <img *ngIf="baiViet.imageAvatar !== null" [src]="baiViet.imageAvatar" alt="" class="avatar-logo">
+        <img *ngIf="baiViet.imageAvatar === null" src="../../../../assets/img/default.png" class="avatar-logo">
+        <div class="status green">&nbsp;</div>
+      </div>
+      <div>
+        <a style="text-decoration: none"
+           routerLink="/profile/profile-emp/{{baiViet.idUser}}"><span>{{baiViet.userName}}</span></a>
+      </div>
+      <div class="icons">
+        <img src="../../../../assets/img/icon1.jpg" alt=""><img src="../../../../assets/img/icon4.jpg" alt="">
+      </div>
+      <div class="icons" style="display: contents!important;">
+        <button class="button-icons" (click)="clickLike( baiViet, 0)" id="disableLikeDE"><i
+          class="fa fa-thumbs-up blue"><span>{{baiViet.luotthich}}</span></i></button>
+        <button class="button-icons" (click)="clickDislike(baiViet,0)" id="disableDisLikeDE"><i
+          class="fa fa-thumbs-down"><span>{{baiViet.luotkhongthich}}</span></i></button>
+      </div>
+    </div>
+    <div class="posttext pull-left">
+      <h2>{{baiViet.title}}</h2>
+      <div [innerHTML]="baiViet.noidung">
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="postinfo pull-left">
+    <div class="comments" (click)="showComment()">
+      <div class="commentbg">
+        {{baiViet.totalComment}}
+        <div class="mark"></div>
+      </div>
+
+    </div>
+    <div class="views"><i class="fa fa-eye"></i> {{baiViet.viewCounts}}</div>
+    <div class="time"><i class="fa fa-clock-o"></i>{{baiViet.createDate | date: 'dd-MM-yyyy'}}</div>
+
+  </div>
+  <div class="clearfix"></div>
+  <div class="form-group">
+    <button class="comment-reply reply-popup" (click)="checkLogin()"><i class="fa fa-reply-all" aria-hidden="true"></i>
+      Reply
+    </button>
+    <button class="fa-share">
+      <app-facebook-share [buttonColor]="'#3b5998'"></app-facebook-share>
+    </button>
+  </div>
+
+  <hr class="border-bottom p-2"/>
+  <div *ngFor="let cm of baiViet.commentDTOS; let i = index">
+    <a routerLink="/profile/profile-emp/{{cm.idUser}}">
+     <span class="commenter-pic">
+              <img *ngIf="cm.imageAvatarCM !== null" src="{{cm.imageAvatarCM}}"
+                   class="img-fluid img-avt-recomment">
+               <img *ngIf="cm.imageAvatarCM === null" src="../../../../assets/img/default.png"
+                    class="img-fluid img-avt-recomment">
+            </span>
+      <span>{{cm.userName}}</span>
+    </a>
+    <div [innerHTML]="cm.noiDung"></div>
+    <div class="icons" style="display: contents!important;">
+      <div class="form-group">
+        <button class="button-icons" (click)="ClickLikeCM(cm,i)" id="disableLikeCM{{i}}"><i
+          class="fa fa-thumbs-up blue"><span>{{cm.luotThich}}</span></i></button>
+        <button class="button-icons" (click)="ClickDisLikeCM(cm, i)" id="disableDisLikeCM{{i}}"><i
+          class="fa fa-thumbs-down"><span>{{cm.loutKhongthich}}</span></i></button>
+        <button class="comment-reply reply-popup{{i}}" (click)="clickToggle(i)"><i class="fa fa-reply-all"
+                                                                                   aria-hidden="true"></i> Reply
+        </button>
+        <span>{{cm.commentDate| date: 'dd-MM-yyyy'}}</span>
+      </div>
+    </div>
+    <div *ngIf="cm.repCommentDTOS !== null">
+      <div *ngFor="let rep of cm.repCommentDTOS; let j = index" style="margin-left: 70px">
+        <a routerLink="/profile/profile-emp/{{cm.idUser}}">
+     <span class="commenter-pic">
+              <img *ngIf="rep.imageAvatarRCM !== null" src="{{rep.imageAvatarRCM}}"
+                   class="img-fluid img-avt-recomment">
+               <img *ngIf="rep.imageAvatarRCM === null" src="../../../../assets/img/default.png"
+                    class="img-fluid img-avt-recomment">
+            </span>
+          <span>{{rep.userName}}</span>
+        </a>
+        <div [innerHTML]="rep.noidung"></div>
+        <div class="icons" style="display: contents!important;">
+          <div class="form-group">
+            <button class="button-icons" (click)="checkLogin()" id="likeRECm{{j}}"><i
+              class="fa fa-thumbs-up blue"><span>{{rep.luotthich}}</span></i></button>
+            <button class="button-icons" (click)="checkLogin()" id="dislikeRECm{{j}}"><i
+              class="fa fa-thumbs-down"><span>{{rep.luotkhongthich}}</span></i></button>
+            <button class="comment-reply reply-popup{{i}}" (click)="clickToggle(j)"><i class="fa fa-reply-all"
+                                                                                       aria-hidden="true"></i> Reply
+            </button>
+            <span>{{rep.repDate| date: 'dd-MM-yyyy'}}</span>
+          </div>
+        </div>
+        <!--      comment rep comment-->
+      </div>
+    </div>
+    <div class="container" *ngIf="userProfile">
+      <div class="comment-box add-comment reply-box{{i}} toggler" id="toggletest{{i}}" style="margin-left: 70px">
+           <span class="commenter-pic">
+              <img *ngIf="userProfile.imagePath !== null" src="{{userProfile.imagePath}}"
+                   class="img-fluid img-avt-comment">
+               <img *ngIf="userProfile.imagePath === null" src="../../../../assets/img/default.png" class="avatar-logo">
+            </span>
+        <span>{{userProfile.name}}</span>
+        <span class="commenter-name">
+              <ckeditor [editor]="editor" [(ngModel)]="repcomment" (ready)="onReady($event)"
+                        placeholder="Add a public reply" name="Add Comment"></ckeditor>
+              <button type="submit" class="btn btn-default" (click)="postRepComment(cm.id, baiViet.id)">Reply</button>
+              <button type="cancel" class="btn btn-default reply-popup" (click)="removeDisplay(i)">Cancel</button>
+            </span>
+      </div>
+    </div>
+  </div>
+  <hr class="border-bottom p-2"/>
+
+  <!-- comment and repcomment -->
+  <div class="container" *ngIf="userProfile">
+    <div class="comment-box add-comment reply-box" id="mainComment">
+            <span class="commenter-pic">
+              <img *ngIf="userProfile.imagePath !== null" src="{{userProfile.imagePath}}"
+                   class="img-fluid img-avt-comment">
+               <img *ngIf="userProfile.imagePath === null" src="../../../../assets/img/default.png" class="avatar-logo">
+            </span>
+      <span>{{userProfile.name}}</span>
+      <span class="commenter-name">
+              <ckeditor [editor]="editor" [(ngModel)]="commentContent" (ready)="onReady($event)"
+                        placeholder="Add a public reply" name="Add Comment"></ckeditor>
+              <button type="submit" class="btn btn-default" (click)="postComment(baiViet.id)">Reply</button>
+              <button type="cancel" class="btn btn-default reply-popup" (click)="cancle()">Cancel</button>
+            </span>
+    </div>
+  </div>
+</div><!-- POST -->
+

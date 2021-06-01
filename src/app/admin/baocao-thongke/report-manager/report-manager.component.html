@@ -1,0 +1,15 @@
+<h2>Báo cáo thống kê</h2>
+<div class="chart-wrapper">
+  <canvas baseChart
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [plugins]="barChartPlugins"
+          [legend]="barChartLegend"
+          [chartType]="barChartType">
+  </canvas>
+</div>
+
+<!--<div class="chart-container" style="position: relative; height:40vh; width:70vw">-->
+<!--  <canvas id="canvas">{{ Linechart }}</canvas>-->
+<!--</div>-->
